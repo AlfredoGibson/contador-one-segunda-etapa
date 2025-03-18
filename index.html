@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Contador Regresivo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background-color: #f0f0f0;
+    }
+    .contador {
+      font-size: 48px;
+      font-weight: bold;
+      color: #333;
+    }
+    h1 {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cuenta Regresiva</h1>
+  <div class="contador" id="contador"></div>
+  
+  <script>
+    // Fecha objetivo en UTC-3 (18 de marzo a las 23:59 en UTC-3 equivale a 19 de marzo 02:59 UTC)
+    const targetDateUTC3 = new Date(Date.UTC(2025, 2, 19, 2, 59, 0));
+
+    function actualizarContador() {
+      // Obtener la hora actual en UTC directamente desde Date.now()
+      const nowUTC = Date.now();
+      const diferencia = targetDateUTC3.getTime() - nowUTC;
+
+      if (diferencia <= 0) {
+        document.getElementById('contador').innerHTML = "¡La cuenta ha terminado!";
+        clearInterval(intervalo);
+        return;
+      }
+
+      const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+      document.getElementById('contador').innerHTML =
+        `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+    }
+
+    const intervalo = setInterval(actualizarContador, 1000);
+    actualizarContador();
+  </script>
+</body>
+</html>
